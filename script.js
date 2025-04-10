@@ -35,6 +35,39 @@
         });
       }
     });
+
+    const button = document.getElementById("button");
+    const FontFamily = document.querySelector("h1");
+    const NavBar = document.querySelectorAll(".dropdown a");
+    const Dropdown = document.querySelectorAll(".dropdown-content");
+    let ischanged = false;
+    button.addEventListener('click', function(){
+      if (!ischanged){
+      document.body.style.backgroundImage = "url('images/background2.png')";
+      FontFamily.style.fontFamily =  "'Honk', system-ui";
+      NavBar.forEach(link => {
+        link.style.color = "white";
+      });
+
+      Dropdown.forEach(link => {
+        link.style.backgroundColor = "black";
+        link.style.borderColor = "white";
+      });
+  
+      ischanged = true;
+    } else {
+      document.body.style.backgroundImage = "url('images/back1.png')";
+      FontFamily.style.fontFamily = "'Bungee Tint', sans-serif";
+      NavBar.forEach(link => {
+      link.style.color = "black";
+      });
+      Dropdown.forEach(link => {
+        link.style.backgroundColor = "white";
+        link.style.borderColor = "black";
+      });
+      ischanged = false;
+    }
+    });
   });
   
 })();

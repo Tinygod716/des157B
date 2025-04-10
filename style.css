@@ -48,17 +48,19 @@ body {
   font-size: 20PX;
 }
 
+.dropdown a:hover {
+  color: #00bfff;
+}
+
 .dropdown a {
   text-decoration: none;
   position: relative;
   padding: 5px 10px;
   transition: color 0.3s ease;
   color: #301b1b;
+  transition: color 0.3s ease, background-color 0.3s ease;
 }
 
-.dropdown ul li a:hover {
-  color: #00bfff;
-}
 
 .dropdown-content ul {
   list-style: none;
@@ -98,4 +100,30 @@ footer {
 footer img {
   position: relative;
   left: 50vh;
+}
+
+footer img:hover {
+    cursor: pointer;
+
+}
+
+#Navlist::before {
+  content: "";
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  right: -4px;
+  bottom: -4px;
+  border: 10px dashed rgb(191, 234, 85);
+  animation: rotateBorder 4s linear infinite;
+  z-index: -1;
+}
+
+@keyframes rotateBorder {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
