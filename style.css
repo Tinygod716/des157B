@@ -35,17 +35,34 @@ body {
   align-items: center;
   list-style-type:none;
   gap: 20px;
-  border: orange;
+  border: 10px dashed rgb(254, 199, 48);
   border-style: dashed;
-  border-width: 2px;
   background-color:#41414143;
   padding: 30px 0;
   margin-top: 0;
   font-family: "Lexend Deca", sans-serif;
-
+  animation: borderMove 1s linear infinite;
   font-weight: 800;
   font-style: normal;
   font-size: 20PX;
+}
+
+@keyframes borderMove {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 100% 0;
+  }
+}
+
+.dropdown > ul {
+  background-image: linear-gradient(90deg, #ffc72c 50%, transparent 50%);
+  background-size: 12px 100%;
+  background-repeat: repeat-x;
+  background-position: 0 0;
+  border: none; /* 使用 background 实现 dashed 效果 */
+  padding: 10px;
 }
 
 .dropdown a:hover {
@@ -105,25 +122,4 @@ footer img {
 footer img:hover {
     cursor: pointer;
 
-}
-
-#Navlist::before {
-  content: "";
-  position: absolute;
-  top: -4px;
-  left: -4px;
-  right: -4px;
-  bottom: -4px;
-  border: 10px dashed rgb(191, 234, 85);
-  animation: rotateBorder 4s linear infinite;
-  z-index: -1;
-}
-
-@keyframes rotateBorder {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
 }
