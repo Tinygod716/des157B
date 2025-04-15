@@ -27,7 +27,7 @@ let hasFiltered = false;
 function checkTime() {
     const t = Video.currentTime;
 
-    if ((t > 5 && t < 12) || (t > 16 && t < 25)) {
+    if ((t > 3 && t < 12) || (t > 16 && t < 25)) {
         img.className = "showing";
         resetAnimation(img, "slideInFromLeft 2s ease-out forwards");
     } else {
@@ -35,7 +35,7 @@ function checkTime() {
         img.style.animation = "none";
     }
 
-    if (t > 6 && t < 12) {
+    if (t > 5 && t < 12) {
         text.className = "showing";
         text.innerHTML = "let me get some filters on this video";
         resetAnimation(text, "shake 0.3s infinite");

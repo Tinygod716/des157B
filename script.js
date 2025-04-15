@@ -7,19 +7,22 @@
   
     navLinks.forEach(link => {
       link.addEventListener('click', function (e) {
-        e.preventDefault();
-  
         const targetId = this.dataset.target;
-  
-        const currentlyOpen = document.getElementById(targetId);
-        const isVisible = currentlyOpen && currentlyOpen.style.display === 'block';
-  
-        dropdowns.forEach(menu => {
-          menu.style.display = 'none';
-        });
- 
-        if (!isVisible && currentlyOpen) {
-          currentlyOpen.style.display = 'block';
+    
+
+        if (targetId) {
+          e.preventDefault();
+    
+          const currentlyOpen = document.getElementById(targetId);
+          const isVisible = currentlyOpen && currentlyOpen.style.display === 'block';
+    
+          dropdowns.forEach(menu => {
+            menu.style.display = 'none';
+          });
+    
+          if (!isVisible && currentlyOpen) {
+            currentlyOpen.style.display = 'block';
+          }
         }
       });
     });
