@@ -7,6 +7,7 @@
 body {
     height: 100vh;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     background-color: #f4f4f4;
@@ -16,7 +17,8 @@ body {
 }
 
 h1 {
-    font-size: 120px;
+    font-size: 100px;
+    flex-direction: column;
     color: #1a1818;
     margin-bottom: 20px;
     position: relative;
@@ -30,6 +32,9 @@ h1 {
     background-color: #ffffff;
     position: relative;
     border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .outer {
@@ -54,8 +59,8 @@ h1 {
 
 svg {
     position: absolute;
-    top: 0;
-    left: 0;
+    top: 50vh;
+    left: 50vh;
 }
 
 circle {
@@ -70,9 +75,6 @@ circle {
 
 #diskone{
     animation: slow-spin 40s linear infinite;
-    position: absolute;
-    left: -94vh;
-    top: -12vh;
 }
 
 @keyframes slow-spin {

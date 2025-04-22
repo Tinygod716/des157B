@@ -18,7 +18,7 @@ let interval = setInterval(() => {
 
 //different color for h1
 
-const colors = ['red', 'orange', 'yellow', 'black', 'blue', 'purple', 'pink'];
+const colors = ['#E60E7E', '#8B00E6', '#64E501', '#66334E'];
 const title = document.getElementById('colorful-title');
 const text = title.innerText;
 let newHTML = '';
