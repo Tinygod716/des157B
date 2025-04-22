@@ -1,0 +1,91 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f4f4f4;
+    font-family: "Barriecito", system-ui;
+    font-weight: 400;
+    font-style: normal;
+}
+
+h1 {
+    font-size: 120px;
+    color: #1a1818;
+    margin-bottom: 20px;
+    position: relative;
+    top: -30vh;;
+    animation: swing 1s infinite steps(2, end);
+}
+
+.skill {
+    width: 160px;
+    height: 160px;
+    background-color: #ffffff;
+    position: relative;
+    border-radius: 50%;
+}
+
+.outer {
+    padding: 20px;
+    border-radius: 50%;
+}
+
+.inner {
+    height: 120px;
+    width: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+#number {
+    font-weight: 600;
+    font-size: 24px;
+    color: #1a1818;
+}
+
+svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+circle {
+    fill: none;
+    stroke: url(#GradientColor);
+    stroke-width: 20px;
+    stroke-dasharray: 440;
+    stroke-dashoffset: 440;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 0.3s linear;
+}
+
+#diskone{
+    animation: slow-spin 40s linear infinite;
+    position: absolute;
+    left: -94vh;
+    top: -12vh;
+}
+
+@keyframes slow-spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+@keyframes anim{
+    100%{
+        stroke-dashoffset: 157.5;
+    }
+}
