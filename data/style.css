@@ -10,7 +10,7 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: #f4f4f4;
+    background-color: #FFE1E1;
     font-family: "Barriecito", system-ui;
     font-weight: 400;
     font-style: normal;
@@ -23,7 +23,6 @@ h1 {
     margin-bottom: 20px;
     position: relative;
     top: -30vh;;
-    animation: swing 1s infinite steps(2, end);
 }
 
 .skill {
@@ -53,24 +52,25 @@ h1 {
 
 #number {
     font-weight: 600;
-    font-size: 24px;
+    font-size: 50px;
     color: #1a1818;
 }
 
 svg {
     position: absolute;
-    top: 50vh;
-    left: 50vh;
+    top: -20vh;
+    left: -10vh;
 }
 
 circle {
     fill: none;
     stroke: url(#GradientColor);
-    stroke-width: 20px;
+    stroke-width: 30px;
     stroke-dasharray: 440;
-    stroke-dashoffset: 440;
+    stroke-dashoffset: 600;
     stroke-linecap: round;
     transition: stroke-dashoffset 0.3s linear;
+    position: absolute;
 }
 
 #diskone{
