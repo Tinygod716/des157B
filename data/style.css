@@ -11,13 +11,13 @@ body {
     align-items: center;
     justify-content: center;
     background-color: #FFE1E1;
-    font-family: "Barriecito", system-ui;
+    font-family: "Julius Sans One", sans-serif;
     font-weight: 400;
     font-style: normal;
 }
 
 h1 {
-    font-size: 100px;
+    font-size: 50px;
     flex-direction: column;
     color: #1a1818;
     margin-bottom: 20px;
@@ -75,6 +75,9 @@ circle {
 
 #diskone{
     animation: slow-spin 40s linear infinite;
+    transform: rotate(0deg);
+    transition: transform 0.2s ease;
+    cursor: grab;
 }
 
 @keyframes slow-spin {
@@ -91,3 +94,31 @@ circle {
         stroke-dashoffset: 157.5;
     }
 }
+
+@keyframes slideInFromLeft {
+    from {
+        transform: translateX(-150%);
+    }
+    to {
+        transform: translateX(-50%);
+    }
+}
+
+.fade-out {
+    animation: slideInFromLeft 1s ease-out forwards;
+  }
+  
+  .fade-in {
+    animation: slideInFromLeft 1s ease-out forwards;
+  }
+
+  p{
+    position: absolute;
+    left: 60vh;
+    top: 5vh;
+    width: 500px;
+    font-family: "Julius Sans One", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 20px;
+  }
