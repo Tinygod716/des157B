@@ -12,13 +12,13 @@ body {
 
 .leftbar{
   height: 100vh;
-  width: 20vh;
+  width: 21vh;
   border: 2px solid black;
   position: absolute;
 }
 .rightbar{
   height: 100vh;
-  width: 20vh;
+  width: 21vh;
   right: 0;
   border: 2px solid black;
   position: absolute;
