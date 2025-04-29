@@ -1,13 +1,12 @@
 body {
-  font-family: Arial, sans-serif;
-  background-color: #f4f4f4;
   margin: 0;
   padding: 0;
-  background-image: url(images/back1.png);
-  background-position: center;
-  background-repeat: no-repeat;
   height: 100vh;
-  position: relative;
+  background-image: url('images/back1.png');
+  background-size: contain;
+  background-position: center center; 
+  background-repeat: no-repeat;
+  background-color: #5497fcfa;
 }
 
 .leftbar{
@@ -88,6 +87,7 @@ h1 {
   font-style: normal;
   font-size: 70px;
   margin-bottom: 0;
+  margin-left: 200px;
 }
 
 .name{
@@ -96,6 +96,7 @@ h1 {
   font-style: normal;
   font-size: 30px;
   margin-top: 0;
+  margin-left: 200px;
 }
 
 footer {
@@ -134,4 +135,18 @@ footer img:hover {
 
 .dropdown a:hover {
   color: #00bfff !important;
+}
+
+.leftbar{
+  animation: slideInFromLeft 1s ease-out forwards;
+  background-color: #41414143;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.rightbar{
+  animation: slideInFromLeft 1s ease-out forwards;
+  background-color: #27fcd8b2;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }

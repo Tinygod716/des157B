@@ -125,3 +125,11 @@ circle {
   font-style: normal;
   font-size: 20px;
   }
+
+  .weekday p {
+    font-size: 50px;
+    position: absolute;
+    top: 12vh;
+    left: 12vh;
+    animation: slideInFromLeft 1s ease-out forwards;
+  }
