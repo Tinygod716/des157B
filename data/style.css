@@ -78,6 +78,9 @@ circle {
     transform: rotate(0deg);
     transition: transform 0.2s ease;
     cursor: grab;
+    position: relative;
+    top: -4vh;
+    left: -2vh;
 }
 
 @keyframes slow-spin {
@@ -114,7 +117,7 @@ circle {
 
   p{
     position: absolute;
-    left: 60vh;
+    left: 52vh;
     top: 5vh;
     width: 500px;
     font-family: "Julius Sans One", sans-serif;
