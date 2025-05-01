@@ -97,22 +97,6 @@
 
   // 6. Setup event listeners for image interaction
   function setupImageEvents() {
-    img.addEventListener('mouseenter', () => {
-      const transform = getComputedStyle(img).transform;
-      if (transform !== 'none') {
-        const values = transform.split('(')[1].split(')')[0].split(',');
-        const a = parseFloat(values[0]), b = parseFloat(values[1]);
-        currentRotation = Math.round(Math.atan2(b, a) * (180 / Math.PI));
-      }
-      img.style.animation = 'none';
-      img.style.transform = `rotate(${currentRotation}deg)`;
-    });
-
-    img.addEventListener('mouseleave', () => {
-      rotateFrom(currentRotation);
-    });
-
-
     img.addEventListener('mousedown', (e) => {
       img.style.animation = 'none';
       startY = e.clientY;
@@ -133,12 +117,14 @@
             img.src = images[index];
 
             img.onload = async () => {
-              
               img.classList.remove('fade-out');
               img.classList.add('fade-in');
               setTimeout(() => {
                 img.classList.remove('fade-in');
               }, 500);
+
+              currentRotation = 0; // Reset rotation for the new image
+              rotateFrom(currentRotation); // Start spinning from fresh state
 
               // Fetch corresponding day and start new progress bar
               const day = weekdays[index];

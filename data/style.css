@@ -79,7 +79,7 @@ circle {
     transition: transform 0.2s ease;
     cursor: grab;
     position: relative;
-    top: -4vh;
+    top: -1vh;
     left: -2vh;
 }
 
