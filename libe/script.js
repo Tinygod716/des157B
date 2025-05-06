@@ -1,35 +1,45 @@
 function modifyHeaderAndControlScroll() {
-    // Disable scrolling
+    // prohibit scroll
     document.body.style.overflow = 'hidden';
-
+  
+    // TEXT ANIMATIONT
     setTimeout(() => {
-        const OpenText = document.querySelector('.opening p');
-        OpenText.classList.add('fade-out');
+      const openText = document.querySelector('.opening p');
+      if (openText) openText.classList.add('fade-out');
     }, 3000);
-
+  
+    // video animation and scroll text
     setTimeout(() => {
-        // Change header background color
-        const Header = document.querySelector('header');
-        const Video = document.createElement('video');
-        const ScrollText = document.querySelector('footer p');
-        const ScrollBox = document.querySelector('.scrollanimate');
+      const header = document.querySelector('header');
+      const scrollText = document.querySelector('footer p');
+      const scrollBox = document.querySelector('.scrollanimate');
+  
+      const video = document.createElement('video');
+      video.src = 'media/opening.mp4';
+      video.autoplay = true;
+      video.muted = true;
+      video.loop = true;
+      video.playsInline = true;
+      video.style.width = '100%';
+      video.style.height = '100%';
+      video.style.objectFit = 'cover';
+  
+      if (header) header.appendChild(video);
+      document.body.style.overflow = 'auto'; 
+  
+      if (scrollText) scrollText.style.display = 'block';
+      if (scrollBox) scrollBox.style.display = 'block';
+    }, 4000);
+  }
+  
+  // fullPage.js
+  new fullpage('#fullpage', {
+    autoScrolling: false,    
+    scrollHorizontally: true, 
+    scrollBar: true,          
+    fitToSection: false,     
+  });
 
-        Video.src = 'media/opening.mp4';
-        Video.autoplay = true;
-        Video.muted = true;
-        Video.loop = true;
-        Video.playsInline = true;
-        Video.style.width = '100%';
-        Video.style.height = '100%';
-        Video.style.objectFit = 'cover';
-        Header.appendChild(Video);
-
-        // Allow scrolling again
-        document.body.style.overflow = '';
-        ScrollText.style.display = 'block';
-        ScrollBox.style.display = 'block';
-    }, 4000); 
-}
-
-modifyHeaderAndControlScroll();
-
+  modifyHeaderAndControlScroll();
+  
+  
