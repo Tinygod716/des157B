@@ -44,6 +44,29 @@ header {
     flex-direction: column;
 }
 
+.sepaOne {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 50px;
+}
+
+.sepaOne p {
+  transition: font-size 0.8s ease-in-out; 
+}
+
+.sepaOne p:hover {
+    cursor: pointer;
+    transition: font-size 0.8s ease-in-out;
+    font-size: 30px;
+}
+
+#sectext {
+  margin-top: 30px;
+  font-size: 20px;
+}
+
 .infoo {
     display: flex;
     flex-direction: column;
