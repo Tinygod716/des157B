@@ -102,9 +102,11 @@ footer {
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 100vh;
+  height: 200px;
 }
 
-footer p {
+footer > p {
   position: fixed;
   bottom: 8px;
   z-index: 1000;
@@ -124,6 +126,14 @@ footer div {
 	        animation: slide-out-top 2s infinite both;
           display: none;
 }
+
+.libeinfo {
+  position: relative;
+  bottom: 10px;
+  right: 0;
+  display: block;
+}
+
 img {
   width: 800px;
   height: 500px;
