@@ -1,5 +1,68 @@
 canvas {
-  position: fixed;
+  width: 200px;
+  height: 200px;
   top: 0;
   left: 0;
+}
+
+.mapp img {
+  width: 300px;
+  height: 600px;
+  position: absolute;
+}
+
+.marker {
+  position: absolute;
+  top: 50px;
+  left: 50px;
+  width: 20px;
+  height: 20px;
+  background-color: red;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.back {
+  position: absolute;
+  top: 200spx;
+  left: 10px;
+  width: 50px;
+  height: 50px;
+  background-color: blue;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.infopanel img {
+  width: 600px;
+  height: 70vh;
+}
+
+/* slide in */
+
+.slide-left {
+	-webkit-animation: slide-left 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+	        animation: slide-left 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
+
+ @-webkit-keyframes slide-left {
+  0% {
+    -webkit-transform: translateX(0);
+            transform: translateX(0);
+  }
+  100% {
+    -webkit-transform: translateX(-100px);
+            transform: translateX(-100px);
+  }
+}
+@keyframes slide-left {
+  0% {
+    -webkit-transform: translateX(0);
+            transform: translateX(0);
+  }
+  100% {
+    -webkit-transform: translateX(-100px);
+            transform: translateX(-100px);
+  }
 }
