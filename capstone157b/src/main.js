@@ -11,10 +11,9 @@ const camera = new THREE.PerspectiveCamera(
   1000
 );
 
-const cameraInitialPos = new THREE.Vector3(0, 0, 60);
-const cameraTargetPos = new THREE.Vector3(0, 0, 20);
+const cameraInitialPos = new THREE.Vector3(40, 5, 60);
+const cameraTargetPos = new THREE.Vector3(40, 5, 20);
 camera.position.copy(cameraInitialPos);
-
 
 function moveCameraTo(targetPos, duration = 1000) {
   const start = performance.now();
@@ -47,9 +46,9 @@ const torus = new THREE.Mesh(geometry, material);
 scene.add(torus);
 
 const frostingGeometry = new THREE.TorusGeometry(10, 0.1, 16, 100);
-const frostingMaterial = new THREE.MeshStandardMaterial({ color: 0xff77aa }); // 粉色糖霜
+const frostingMaterial = new THREE.MeshStandardMaterial({ color: 0xff77aa }); // color for the object
 const frostingTorus = new THREE.Mesh(frostingGeometry, frostingMaterial);
-frostingTorus.position.y = 0.6; // 稍微浮高一点，避免重叠
+frostingTorus.position.y = 0.6; // a little higher to avoid overlap
 scene.add(frostingTorus);
 
 const planetGeo = new THREE.SphereGeometry(2, 64, 64);
@@ -58,7 +57,7 @@ const planet = new THREE.Mesh(planetGeo, planetMat);
 scene.add(planet);
 
 const bgGeo = new THREE.SphereGeometry(100, 64, 64);
-const texture = new THREE.TextureLoader().load('textures/space.jpg'); // 星空图
+const texture = new THREE.TextureLoader().load('textures/space.jpg'); // texture
 const bgMat = new THREE.MeshBasicMaterial({ map: texture, side: THREE.BackSide });
 const backgroundSphere = new THREE.Mesh(bgGeo, bgMat);
 scene.add(backgroundSphere);
@@ -92,29 +91,33 @@ animate();
 
 
 const addedModels = {};
-const Textbox =  document.querySelector(`.infopanel img`);
+const Bigmap = document.querySelector('.bigmap');
+document.querySelectorAll('.infopanel img').forEach(el => el.style.display = 'none');
 
-// 点击 marker 后添加 3D 模型并升起
+// click marker to show the 3d model
 document.querySelectorAll('.marker').forEach(marker => {
   marker.addEventListener('click', () => {
     const id = marker.dataset.location;
+    const Mapp = document.querySelector(`.infopanel img[data-location="${id}"]`);
      moveCameraTo(cameraTargetPos, 1200);
-    Textbox.style.display = 'block';
-    Textbox.classList.add('slide-left');
+    Mapp.style.display = 'block';
+    Mapp.classList.add('slide-left');
+    Bigmap.style.opacity = 0.5;
+    
 
-    // 如果已经添加过，就不重复添加
+    // if you have added no no need to repeat 
     if (addedModels[id]) return;
 
-    // 创建一个新的 torus 模型
-    const geometry = new THREE.TorusGeometry(10, 0.4, 16, 100);
+    // all 3d model goes here
+    const geometry = new THREE.TorusGeometry(5, 0.4, 16, 100);
     const material = new THREE.MeshStandardMaterial({ color: 0x44ccff });
     const newTorus = new THREE.Mesh(geometry, material);
-    newTorus.position.set(0, -5, 0); // 初始从地下开始
+    newTorus.position.set(30, -5, 0); // initial position
     scene.add(newTorus);
 
     addedModels[id] = newTorus;
 
-    // 升起动画
+    // rise animation
     const targetY = 0;
     function rise() {
       if (newTorus.position.y < targetY) {
@@ -125,9 +128,18 @@ document.querySelectorAll('.marker').forEach(marker => {
     rise();
   });
 
-  // 点击go back返回
+  const group = new THREE.Group();
+group.add(torus);
+group.add(frostingTorus);
+group.add(planet);
+scene.add(group);
+group.position.set(30, 0, 0);
+
+  // click go back
   document.querySelector('.back').addEventListener('click', () => {
     const id = marker.dataset.location;
+    const Mapp = document.querySelector(`.infopanel img[data-location="${id}"]`);
+    Bigmap.style.opacity = 1;
     moveCameraTo(cameraInitialPos, 1200);
     function goBack() {
       if (addedModels[id]) {
@@ -137,11 +149,17 @@ document.querySelectorAll('.marker').forEach(marker => {
         } else {
           scene.remove(addedModels[id]);
           delete addedModels[id];
-          Textbox.style.display = 'none';
+          Mapp.classList.remove('slide-left');
+          Mapp.classList.add('slide-right');
+          
+          Mapp.addEventListener('animationend', () => {
+            Mapp.style.display = 'none';
+            Mapp.classList.remove('slide-right'); // remove the class
+          }, { once: true }); // only run once
         }
       }
     }
     goBack();
+  });
 
   });
-});
