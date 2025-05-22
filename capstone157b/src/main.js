@@ -4,6 +4,13 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
 const scene = new THREE.Scene();
 
+// canva background
+
+const loader = new THREE.TextureLoader();
+loader.load('images/background.png', (texture) => {
+  scene.background = texture;
+});
+
 const camera = new THREE.PerspectiveCamera(
   75,
   window.innerWidth / window.innerHeight,
@@ -139,7 +146,7 @@ group.position.set(30, 0, 0);
   document.querySelector('.back').addEventListener('click', () => {
     const id = marker.dataset.location;
     const Mapp = document.querySelector(`.infopanel img[data-location="${id}"]`);
-    Bigmap.style.opacity = 1;
+    Bigmap.style.opacity = 0.7;
     moveCameraTo(cameraInitialPos, 1200);
     function goBack() {
       if (addedModels[id]) {
