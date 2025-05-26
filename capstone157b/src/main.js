@@ -4,12 +4,10 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
 const scene = new THREE.Scene();
 
-// canva background
+// canva background and scroll
 
-const loader = new THREE.TextureLoader();
-loader.load('images/background.png', (texture) => {
-  scene.background = texture;
-});
+const spaceTexture = new THREE.TextureLoader().load('images/background.png');
+scene.background = spaceTexture;
 
 const camera = new THREE.PerspectiveCamera(
   75,
@@ -18,22 +16,43 @@ const camera = new THREE.PerspectiveCamera(
   1000
 );
 
+
 const cameraInitialPos = new THREE.Vector3(40, 5, 60);
 const cameraTargetPos = new THREE.Vector3(40, 5, 20);
 camera.position.copy(cameraInitialPos);
 
+
+let cancelCameraMove = false;
+
 function moveCameraTo(targetPos, duration = 1000) {
+  cancelCameraMove = false; // reset the flag
   const start = performance.now();
   const from = camera.position.clone();
   const to = targetPos.clone();
 
   function animateMove(time) {
+    if (cancelCameraMove) return;
     const t = Math.min((time - start) / duration, 1);
     camera.position.lerpVectors(from, to, t);
     if (t < 1) requestAnimationFrame(animateMove);
   }
   requestAnimationFrame(animateMove);
 }
+
+let baseCameraZ = camera.position.z;
+let lastScrollY = window.scrollY;
+window.addEventListener('scroll', () => {
+  cancelCameraMove = true; // stop the camera move when scrolling
+  const scrollY = window.scrollY;
+  const deltaScroll = scrollY - lastScrollY; // 比如 +100、-50 等
+  lastScrollY = scrollY;
+
+  baseCameraZ += deltaScroll * 0.1; // 比如每滚动1像素，z 增加 0.1
+  camera.position.z = baseCameraZ;
+  
+  controls.update();
+});
+
 
 
 const renderer = new THREE.WebGLRenderer({
@@ -45,6 +64,7 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 // add OrbitControls，allow user to rotate the camera
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
+
 
 // shape
 const geometry = new THREE.TorusGeometry(12, 0.1, 16, 100);
@@ -63,11 +83,22 @@ const planetMat = new THREE.MeshStandardMaterial({ color: 0x8888ff });
 const planet = new THREE.Mesh(planetGeo, planetMat);
 scene.add(planet);
 
-const bgGeo = new THREE.SphereGeometry(100, 64, 64);
-const texture = new THREE.TextureLoader().load('textures/space.jpg'); // texture
-const bgMat = new THREE.MeshBasicMaterial({ map: texture, side: THREE.BackSide });
-const backgroundSphere = new THREE.Mesh(bgGeo, bgMat);
-scene.add(backgroundSphere);
+
+
+function addStar() {
+  const geometry = new THREE.SphereGeometry(0.25, 24, 24);
+  const material = new THREE.MeshStandardMaterial({ color: 0xffffff });
+  const star = new THREE.Mesh(geometry, material);
+
+  const [x, y, z] = Array(3)
+    .fill()
+    .map(() => THREE.MathUtils.randFloatSpread(100));
+
+  star.position.set(x, y, z);
+  scene.add(star);
+}
+
+Array(200).fill().forEach(addStar);
 
 
 // lights
@@ -142,6 +173,8 @@ group.add(planet);
 scene.add(group);
 group.position.set(30, 0, 0);
 
+
+
   // click go back
   document.querySelector('.back').addEventListener('click', () => {
     const id = marker.dataset.location;
@@ -163,7 +196,7 @@ group.position.set(30, 0, 0);
             Mapp.style.display = 'none';
             Mapp.classList.remove('slide-right'); // remove the class
           }, { once: true }); // only run once
-        }
+      }
       }
     }
     goBack();

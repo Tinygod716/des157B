@@ -12,6 +12,8 @@
     "vite": "^6.3.5"
   },
   "dependencies": {
+    "gsap": "^3.13.0",
+    "html2canvas": "^1.4.1",
     "three": "^0.176.0"
   }
 }
