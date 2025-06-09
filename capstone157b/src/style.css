@@ -64,6 +64,17 @@ body, html {
   opacity: 1;
 }
 
+#cali {
+  position: absolute;
+  right: 10vw;
+  top: 40vh;
+}
+
+#south {
+  position: absolute;
+  left: 20vw;
+  top: 10vh;
+}
 /* gif animation */
 
 .back {

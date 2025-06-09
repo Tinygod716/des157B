@@ -7,6 +7,12 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 
 const loader = new GLTFLoader();
+const modelMap = {
+  shanghai: 'public/models/shanghai_gardens.glb',
+  tokyo: 'public/models/cyberpunk_station.glb',
+  california: 'public/models/alien_monster.glb',
+  southafrica: 'public/models/diorama_of_cyberpunk_city.glb'
+};
 gsap.registerPlugin(SplitText, ScrollTrigger);
 
 // Global state for SplitText instances
@@ -161,16 +167,36 @@ document.querySelectorAll('.marker').forEach(marker => {
 
     if (addedModels[id]) return;
 
-    if (id === 'shanghai') {
-      loader.load('public/models/shanghai_gardens.glb', gltf => {
-        const model = gltf.scene;
-        model.scale.set(0.5, 0.5, 0.5); // 根据需要调整
-        model.position.set(30, -10, -10); // 初始位置在地面下
-        scene.add(model);
-        addedModels[id] = model;
+    const modelPath = modelMap[id];
+if (modelPath) {
+  loader.load(modelPath, gltf => {
+    const model = gltf.scene;
+
+    // 根据不同的地点设置不同的缩放大小
+    switch (id) {
+      case 'shanghai':
+        model.scale.set(0.5, 0.5, 0.5);
+        break;
+      case 'tokyo':
+        model.scale.set(5, 5, 5);
+        break;
+      case 'california':
+        model.scale.set(4, 4, 4);
+        break;
+      case 'southafrica':
+        model.scale.set(3, 3, 3);
+        break;
+      default:
+        model.scale.set(1, 1, 1); // 默认大小
+    }
+
+    model.position.set(30, -10, 0);
+    scene.add(model);
+    addedModels[id] = model;
+
 
     function rise() {
-      if (model.position.y < -8) {
+      if (model.position.y < -10) {
         model.position.y += 0.05;
         requestAnimationFrame(rise);
       }
@@ -190,7 +216,7 @@ document.querySelectorAll('.marker').forEach(marker => {
   addedModels[id] = newTorus;
 
   function rise() {
-    if (model.position.y < 0) {
+    if (model.position.y < -10) {
       model.position.y += 0.05;
       requestAnimationFrame(rise);
     }
