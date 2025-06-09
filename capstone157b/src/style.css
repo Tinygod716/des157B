@@ -69,13 +69,19 @@ body, html {
 .back {
   position: fixed;
   top: 10vh;
-  right: 10vw;
-  width: 50px;
+  right: 5vw;
+  width: 200px;
   height: 50px;
-  background-color: blue;
   color: white;
   border-radius: 5px;
   cursor: pointer;
+  font-family: "Libre Barcode 39 Extended Text", system-ui;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 30px;
+  border: none;
+  background: none;
+  outline: none;
 }
 
 .infopanel img {
@@ -150,7 +156,7 @@ body, html {
 }
 
 .textcontent p {
-  font-size: 50px;
+  font-size: 30px;
   line-height: 2;
   color: white;
   text-align: center;
@@ -170,6 +176,14 @@ footer {
   top: 90vh;
   width: 100vh;
   height: 200px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 1s ease;
+}
+
+body.entered footer {
+  opacity: 1;
+  pointer-events: auto;
 }
 
 footer > p {
@@ -178,18 +192,24 @@ footer > p {
   z-index: 1000;
   font-size: 20px;
   text-align: center;
+  font-family: "Libre Baskerville", serif;
+  font-weight: 400;
+  font-style: normal;
+  justify-content: center;
+  align-items: center;
 }
 
 footer div {
   position: fixed;
-  left: 50vw;
+  left: 52vw;
   bottom: 0;
   z-index: 1000;
-  background: #fd206a;
+  background: #663e9e;
   width: 7px;
   height: 20px;
   -webkit-animation: slide-out-top 2s infinite both;
 	        animation: slide-out-top 2s infinite both;
+          
 }
 
  @keyframes slide-out-top {
@@ -202,3 +222,63 @@ footer div {
     opacity: 0;
   }
 }
+
+/* start bar */
+
+.starttext {
+  position: fixed;
+  top: 40%;
+  left: 5%;
+  color: rgb(72, 45, 155);
+  text-align: center;
+  font-size: 30px;
+  z-index: 1000;
+  font-family: "Libre Barcode 39 Extended Text", system-ui;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.startdiv {
+    position: fixed;
+    top: 80%;         /* 控制垂直位置，越大越靠下 */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.startbar {
+  color: rgb(102, 38, 115);
+  font-size: 80px;
+  margin-bottom: 5px;
+  cursor: pointer;
+  font-family: "Libre Baskerville", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+#startanimation {
+  width: 10px;
+  height: 80px;
+  background-color: #822351;
+  cursor: pointer;
+  animation: slide-out-top 2s infinite both;
+}
+
+.mapp,
+.back {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 1s ease;
+}
+
+body.entered .mapp,
+body.entered .back {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+

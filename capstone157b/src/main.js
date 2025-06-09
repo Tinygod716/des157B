@@ -4,17 +4,23 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { gsap } from 'gsap';
 import SplitText from 'gsap/SplitText';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 
-// Register plugins
+const loader = new GLTFLoader();
 gsap.registerPlugin(SplitText, ScrollTrigger);
 
-// SplitText scroll animation
+// Global state for SplitText instances
+let currentSplits = [];
 function splitText() {
-  document.querySelectorAll('.textcontent__container p').forEach(p => {
-    const split = new SplitText(p, { type: 'chars' });
+  currentSplits.forEach(split => split.revert());
+  currentSplits = [];
+
+  document.querySelectorAll('.textcontent__container p').forEach(el => {
+    const split = new SplitText(el, { type: 'chars' });
+    currentSplits.push(split);
     gsap.from(split.chars, {
       scrollTrigger: {
-        trigger: p,
+        trigger: el,
         start: 'top 90%',
         end: 'bottom 20%',
         scrub: true,
@@ -32,20 +38,14 @@ window.addEventListener('resize', () => {
   ScrollTrigger.refresh();
 });
 
-// THREE.js Scene setup
+// THREE.js setup
 const scene = new THREE.Scene();
-const spaceTexture = new THREE.TextureLoader().load('images/background.png');
-scene.background = spaceTexture;
+scene.background = new THREE.TextureLoader().load('images/background.png');
 
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 const cameraInitialPos = new THREE.Vector3(40, 5, 60);
 const cameraTargetPos = new THREE.Vector3(60, 5, 10);
 camera.position.copy(cameraInitialPos);
-
-let isCameraAnimating = false;
-let cancelCameraMove = false;
-let baseCameraZ = camera.position.z;
-let lastScrollY = window.scrollY;
 
 const renderer = new THREE.WebGLRenderer({ canvas: document.querySelector('#bg') });
 renderer.setPixelRatio(window.devicePixelRatio);
@@ -54,6 +54,11 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
 controls.enableRotate = false;
+
+let isCameraAnimating = false;
+let cancelCameraMove = false;
+let baseCameraZ = camera.position.z;
+let lastScrollY = window.scrollY;
 
 window.addEventListener('scroll', () => {
   if (isCameraAnimating) return;
@@ -72,6 +77,7 @@ function moveCameraTo(targetPos, duration = 1000) {
   const start = performance.now();
   const from = camera.position.clone();
   const to = targetPos.clone();
+
   function animateMove(time) {
     if (cancelCameraMove) return;
     const t = Math.min((time - start) / duration, 1);
@@ -86,7 +92,7 @@ function moveCameraTo(targetPos, duration = 1000) {
   requestAnimationFrame(animateMove);
 }
 
-// Objects
+// Scene objects
 const torus = new THREE.Mesh(new THREE.TorusGeometry(12, 0.1, 16, 100), new THREE.MeshStandardMaterial({ color: 0xff6347 }));
 scene.add(torus);
 
@@ -120,55 +126,119 @@ const addedModels = {};
 const Bigmap = document.querySelector('.bigmap');
 document.querySelectorAll('.infopanel img').forEach(el => el.style.display = 'none');
 
-
-// click on markers
+// Marker click logic
 document.querySelectorAll('.marker').forEach(marker => {
   marker.addEventListener('click', () => {
+    // 🔄 Clear existing content and triggers
+    document.querySelectorAll('.textcontent__container').forEach(c => {
+      c.style.display = 'none';
+      c.classList.remove('slide-bottom-top');
+    });
+    ScrollTrigger.getAll().forEach(t => t.kill());
+
     const id = marker.dataset.location;
-    const Content = document.querySelector(`.textcontent div[data-location="${id}"]`);
     const Mapp = document.querySelector(`.infopanel img[data-location="${id}"]`);
 
+    // Show content for this marker
     document.querySelectorAll('.textcontent__container').forEach(c => {
-      c.style.display = c.dataset.location === id ? 'block' : 'none';
-      c.classList.add('slide-bottom-top');
+      if (c.dataset.location === id) {
+        c.style.display = 'block';
+        c.classList.add('slide-bottom-top');
+      }
     });
 
     moveCameraTo(cameraTargetPos, 1300);
-    Mapp.style.display = 'block';
-    Mapp.classList.add('slide-left');
+    if (Mapp) {
+      Mapp.style.display = 'block';
+      Mapp.classList.add('slide-left');
+    }
     Bigmap.style.opacity = 0.5;
 
     setTimeout(() => {
       splitText();
       ScrollTrigger.refresh();
-    }, 100);
+    }, 300);
 
     if (addedModels[id]) return;
 
-    const newTorus = new THREE.Mesh(
-      new THREE.TorusGeometry(5, 0.4, 16, 100),
-      new THREE.MeshStandardMaterial({ color: 0x44ccff })
-    );
-    newTorus.position.set(30, -5, 0);
-    scene.add(newTorus);
-    addedModels[id] = newTorus;
+    if (id === 'shanghai') {
+      loader.load('public/models/shanghai_gardens.glb', gltf => {
+        const model = gltf.scene;
+        model.scale.set(0.5, 0.5, 0.5); // 根据需要调整
+        model.position.set(30, -10, -10); // 初始位置在地面下
+        scene.add(model);
+        addedModels[id] = model;
 
     function rise() {
-      if (newTorus.position.y < 0) {
-        newTorus.position.y += 0.05;
+      if (model.position.y < -8) {
+        model.position.y += 0.05;
         requestAnimationFrame(rise);
       }
     }
     rise();
+  }, undefined, error => {
+    console.error('加载模型失败:', error);
+  });
+} else {
+  // 默认用 Torus 模型
+  const newTorus = new THREE.Mesh(
+    new THREE.TorusGeometry(5, 0.4, 16, 100),
+    new THREE.MeshStandardMaterial({ color: 0x44ccff })
+  );
+  newTorus.position.set(30, -5, 0);
+  scene.add(newTorus);
+  addedModels[id] = newTorus;
+
+  function rise() {
+    if (model.position.y < 0) {
+      model.position.y += 0.05;
+      requestAnimationFrame(rise);
+    }
+  }
+  rise();
+}
   });
 });
 
+// Go back button
+const backBtn = document.querySelector('.back');
+let splitChars = new SplitText(backBtn, { type: 'chars' });
 
-// click go back button
-document.querySelector('.back').addEventListener('click', () => {
+backBtn.addEventListener('mouseenter', () => {
+  gsap.to(splitChars.chars, {
+    x: i => gsap.utils.random(-20, 20),
+    y: i => gsap.utils.random(-20, 20),
+    rotation: i => gsap.utils.random(-90, 90),
+    opacity: 0.3,
+    stagger: 0.02,
+    duration: 0.5,
+    ease: 'power2.out'
+  });
+});
+
+backBtn.addEventListener('mouseleave', () => {
+  gsap.to(splitChars.chars, {
+    x: 0,
+    y: 0,
+    rotation: 0,
+    opacity: 1,
+    stagger: 0.02,
+    duration: 0.6,
+    ease: 'power3.out'
+  });
+});
+
+backBtn.addEventListener('click', () => {
   const id = document.querySelector('.textcontent__container[style*="block"]')?.dataset.location;
   const Mapp = document.querySelector(`.infopanel img[data-location="${id}"]`);
   const Content = document.querySelector(`.textcontent div[data-location="${id}"]`);
+
+  // ✅ 清除文字和动画
+  document.querySelectorAll('.textcontent__container').forEach(c => {
+    c.style.display = 'none';
+    c.classList.remove('slide-bottom-top');
+  });
+  ScrollTrigger.getAll().forEach(t => t.kill());
 
   window.scrollTo({ top: 0, behavior: 'smooth' });
   moveCameraTo(cameraInitialPos, 1200);
@@ -182,16 +252,68 @@ document.querySelector('.back').addEventListener('click', () => {
       } else {
         scene.remove(addedModels[id]);
         delete addedModels[id];
-        Mapp.classList.remove('slide-left');
-        Mapp.classList.add('slide-right');
-        Content.style.display = 'none';
-
-        Mapp.addEventListener('animationend', () => {
-          Mapp.style.display = 'none';
-          Mapp.classList.remove('slide-right');
-        }, { once: true });
+        if (Mapp) {
+          Mapp.classList.remove('slide-left');
+          Mapp.classList.add('slide-right');
+          Mapp.addEventListener('animationend', () => {
+            Mapp.style.display = 'none';
+            Mapp.classList.remove('slide-right');
+          }, { once: true });
+        }
+        if (Content) {
+          Content.style.display = 'none';
+        }
       }
     }
   }
   goBack();
+});
+
+// Start screen
+const startText = document.querySelector('.starttext');
+const startDiv = document.querySelector('.startdiv');
+const startBtn = document.querySelector('.startbar');
+
+camera.position.set(0, 100, 0);
+camera.lookAt(0, 0, 0);
+controls.enabled = false;
+document.body.style.overflow = 'hidden';
+
+startBtn.addEventListener('click', () => {
+  const splitTextInst1 = new SplitText(startText, { type: 'chars' });
+  const splitTextInst2 = new SplitText(startDiv, { type: 'chars' });
+
+  gsap.to(splitTextInst1.chars, {
+    opacity: 0,
+    y: -30,
+    stagger: 0.03,
+    duration: 0.8,
+    ease: 'power2.out',
+    onComplete: () => startText.remove()
+  });
+
+  gsap.to(splitTextInst2.chars, {
+    opacity: 0,
+    y: 30,
+    stagger: 0.03,
+    duration: 0.8,
+    ease: 'power2.out',
+    onComplete: () => {
+      startDiv.remove();
+      gsap.to(camera.position, {
+        x: cameraInitialPos.x,
+        y: cameraInitialPos.y,
+        z: cameraInitialPos.z,
+        duration: 2,
+        ease: 'power2.inOut',
+        onUpdate: () => camera.lookAt(0, 0, 0),
+        onComplete: () => {
+          controls.enabled = true;
+          document.body.style.overflow = '';
+          document.body.classList.add('entered');
+          baseCameraZ = camera.position.z;
+        }
+      });
+    }
+  });
 });
