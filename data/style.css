@@ -1,0 +1,135 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #FFE1E1;
+    font-family: "Julius Sans One", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+h1 {
+    font-size: 50px;
+    flex-direction: column;
+    color: #1a1818;
+    margin-bottom: 20px;
+    position: relative;
+    top: -30vh;;
+}
+
+.skill {
+    width: 160px;
+    height: 160px;
+    background-color: #ffffff;
+    position: relative;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.outer {
+    padding: 20px;
+    border-radius: 50%;
+}
+
+.inner {
+    height: 120px;
+    width: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+#number {
+    font-weight: 600;
+    font-size: 50px;
+    color: #1a1818;
+}
+
+svg {
+    position: absolute;
+    top: -20vh;
+    left: -10vh;
+}
+
+circle {
+    fill: none;
+    stroke: url(#GradientColor);
+    stroke-width: 30px;
+    stroke-dasharray: 440;
+    stroke-dashoffset: 600;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 0.3s linear;
+    position: absolute;
+}
+
+#diskone{
+    animation: slow-spin 40s linear infinite;
+    transform: rotate(0deg);
+    transition: transform 0.2s ease;
+    cursor: grab;
+    position: relative;
+    top: -1vh;
+    left: -2vh;
+}
+
+@keyframes slow-spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+@keyframes anim{
+    100%{
+        stroke-dashoffset: 157.5;
+    }
+}
+
+@keyframes slideInFromLeft {
+    from {
+        transform: translateX(-150%);
+    }
+    to {
+        transform: translateX(-50%);
+    }
+}
+
+.fade-out {
+    animation: slideInFromLeft 1s ease-out forwards;
+  }
+  
+  .fade-in {
+    animation: slideInFromLeft 1s ease-out forwards;
+  }
+
+  p{
+    position: absolute;
+    left: 52vh;
+    top: 5vh;
+    width: 500px;
+    font-family: "Julius Sans One", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 20px;
+  }
+
+  .weekday p {
+    font-size: 50px;
+    position: absolute;
+    top: 12vh;
+    left: 12vh;
+    animation: slideInFromLeft 1s ease-out forwards;
+  }

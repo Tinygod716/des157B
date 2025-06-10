@@ -1,0 +1,12 @@
+{
+  "listening_frequency": {
+    "monday": 65,
+    "tuesday": 23,
+    "wednesday": 78,
+    "thursday": 20,
+    "friday": 45
+  },
+  "unit": "songs",
+  "time_range": "monday-friday"
+}
+  
