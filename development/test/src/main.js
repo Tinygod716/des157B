@@ -203,7 +203,3 @@ group.position.set(30, 0, 0);
   });
 
   });
-
-    window.onload = function () {
-    alert("Next, click on any two markers on the map on the left and see what happens. After clicking again a 3d model will rise up, this time please scroll your mouse to see more. The “go back” button in the upper right corner is used to reset all the content, in case the external screen lags or you can't go back to the initial state.");
-  };
