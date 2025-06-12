@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>capstone</title>
+  </head>
+  <body>
+
+    <div id="entry-popup" style="display: flex;">
+  <div class="popup-box">
+    <p>
+      Next, click on any two markers on the map on the left and see what happens. After clicking again a 3d model will rise up, this time please scroll your mouse to see more. The “go back” button in the upper right corner is used to reset all the content, in case the external screen lags or you can't go back to the initial state.
+    </p>
+    <button onclick="closePopup()">click to start</button>
+  </div>
+</div>
+
+    <div class="mapp">
+    <img src="images/mapp.png" class="bigmap" alt="">
+    <div class="marker" data-location="tokyo"><img src="images/box.png" alt="" width="57" height="57" style="top: 20vh; left: 30vw;" ></div>
+    <div class="marker" data-location="shanghai"><img src="images/shanghaita.png" class="static"  alt=""><img src="images/shanghaita.gif" class="gif"  alt=""></div>
+    <div class="marker" data-location="california"></div>
+    <div class="marker" data-location="southafrica"></div>
+    <canvas id="bg"></canvas>
+    </div>
+
+    <div class="textcontent">
+      <div class="textcontent__container" data-location="tokyo">
+        <h1 class="textcontent__title">Tokyo</h1>
+        <p class="textcontent__description">Tokyo is the capital of Japan and one of the most populous cities in the world. It is known for its modern architecture, bustling streets, and rich cultural heritage.</p>
+        <button class="textcontent__button" data-location="tokyo">Explore</button>
+      </div>
+
+      <div class="textcontent__container" data-location="shanghai">
+        <h1 class="textcontent__title">Tokyo</h1>
+        <p class="textcontent__description">Tokyo is the capital of Japan and one of the most populous cities in the world. It is known for its modern architecture, bustling streets, and rich cultural heritage.</p>
+        <button class="textcontent__button" data-location="tokyo">Explore</button>
+      </div>
+
+      <div class="textcontent__container" data-location="california">
+        <h1 class="textcontent__title">Tokyo</h1>
+        <p class="textcontent__description">Tokyo is the capital of Japan and one of the most populous cities in the world. It is known for its modern architecture, bustling streets, and rich cultural heritage.</p>
+        <button class="textcontent__button" data-location="tokyo">Explore</button>
+      </div>
+
+      <div class="textcontent__container" data-location="southafrica">
+        <h1 class="textcontent__title">Tokyo</h1>
+        <p class="textcontent__description">Tokyo is the capital of Japan and one of the most populous cities in the world. It is known for its modern architecture, bustling streets, and rich cultural heritage.</p>
+        <button class="textcontent__button" data-location="tokyo">Explore</button>
+      </div>
+    </div>
+
+    <button class="back">going back</button>
+
+    <div class="infopanel" data-location="shanghai">
+      <img src="images/textbox1.png" data-location="shanghai"  alt="">
+    </div>
+    <script type="module" data-location="torus1"  src="/src/main.js"></script>
+    
+  <script>
+  window.onload = function () {
+    document.getElementById("entry-popup").style.display = "block";
+  };
+
+  function closePopup() {
+    document.getElementById("entry-popup").style.display = "none";
+  }
+</script>
+  </body>
+</html>
